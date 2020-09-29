@@ -9,19 +9,11 @@
 import Foundation
 import XCResultKit
 
-let commandLine = CommandLineArguments()
-guard let path = commandLine.derivedDataFolder else {
-    print("-derivedDataFolder is required, unable to continue")
-    exit(1)
-}
 
-guard let output = commandLine.output else {
-    print("-output is required, unable to continue")
-    exit(1)
-}
+let arguments = CommandLineArguments.parseOrExit()
 
 let derivedData = DerivedData()
-derivedData.location = URL(fileURLWithPath: path)
+derivedData.location = URL(fileURLWithPath: arguments.derivedDataFolder)
 guard let resultKit = derivedData.recentResultFile() else {
     print("Unable to find XCResult file!")
     exit(1)
@@ -32,7 +24,7 @@ let testSummary = gatherTestSummary(from: resultKit)
 let jsonEncoder = JSONEncoder()
 do {
     let encodedData = try jsonEncoder.encode(testSummary)
-    try encodedData.write(to: URL(fileURLWithPath: output))
+    try encodedData.write(to: URL(fileURLWithPath: arguments.output))
 } catch {
     print("Error encoding the json output")
 }
