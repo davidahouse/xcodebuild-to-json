@@ -25,11 +25,9 @@ struct TestCase: Codable, Identifiable {
 struct TestDetails: Codable {
     
     var classes: [TestClass] = []
-//    var allTests: [ActionTestMetadata] = []
     
     mutating func updateSummaries(_ summaries: [ActionTestPlanRunSummary], issues: ResultIssueSummaries) {
         let tests = gatherTests(summaries: summaries)
-  //      allTests = tests
         
         // get the class names
         var classNames = Set<String>()

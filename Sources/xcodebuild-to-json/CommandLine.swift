@@ -14,30 +14,34 @@
 //      -sha                    The sha of the code that was compiled
 //      -includeWarnings        If text output should include compiler warnings
 import Foundation
+import ArgumentParser
 
-struct CommandLineArguments {
+struct CommandLineArguments: ParsableArguments {
 
-    let derivedDataFolder: String?
-    let output: String?
+    @Option(help: ArgumentHelp("Spefify the folder where the DerivedData is for the app"))
+    var derivedDataFolder: String
+    
+    @Option(help: ArgumentHelp("Specify the output file name for the JSON output"))
+    var output: String
 
-    init(arguments: [String] = CommandLine.arguments) {
-
-        var foundArguments: [String: String] = [:]
-        for (index, value) in arguments.enumerated() {
-
-            if value.hasPrefix("-") && index < (arguments.count - 1) && !arguments[index+1].hasPrefix("-") {
-                let parameter = String(value.suffix(value.count - 1))
-                foundArguments[parameter] = arguments[index+1]
-            }
-        }
-
-        derivedDataFolder = foundArguments["derivedDataFolder"]
-        output = foundArguments["output"]
-    }
-
-    func printInstructions() {
-        var instructions = "Usage: xcodebuild-to-md -derivedDataFolder <path>"
-        instructions += " -output <path>"
-        print(instructions)
-    }
+//    init(arguments: [String] = CommandLine.arguments) {
+//
+//        var foundArguments: [String: String] = [:]
+//        for (index, value) in arguments.enumerated() {
+//
+//            if value.hasPrefix("-") && index < (arguments.count - 1) && !arguments[index+1].hasPrefix("-") {
+//                let parameter = String(value.suffix(value.count - 1))
+//                foundArguments[parameter] = arguments[index+1]
+//            }
+//        }
+//
+//        derivedDataFolder = foundArguments["derivedDataFolder"]
+//        output = foundArguments["output"]
+//    }
+//
+//    func printInstructions() {
+//        var instructions = "Usage: xcodebuild-to-md -derivedDataFolder <path>"
+//        instructions += " -output <path>"
+//        print(instructions)
+//    }
 }
